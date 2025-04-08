@@ -3,9 +3,88 @@
 <head>
     <title>Gerador de Imagens com IA</title>
     <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            color: #4477aa;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        #image-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        #prompt {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            background-color: #4477aa;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #335588;
+        }
+
+        #image-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #image-container h2 {
+            color: #4477aa;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
         #image-container img {
-            max-width: 500px;
+            max-width: 100%; /* Adapta-se à largura do container */
             height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 600px) {
+            #image-form {
+                flex-direction: column;
+            }
+
+            #prompt {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            button[type="submit"] {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -25,7 +104,7 @@
         const promptInput = document.getElementById('prompt');
         const imageContainer = document.getElementById('image-container');
         const generatedImage = document.getElementById('generated-image');
-        const backendUrl = 'http://127.0.0.1:5000/generate_image'; // Ajuste se necessário
+        const backendUrl = 'http://127.0.0.1:5000/generate_image'; 
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();

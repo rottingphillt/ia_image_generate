@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerador de Imagens com IA</title>
+    <style>
+        #image-container img {
+            max-width: 500px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerador de Imagens com IA</h1>
+    <form id="image-form">
+        <input type="text" id="prompt" placeholder="Digite seu prompt aqui">
+        <button type="submit">Gerar Imagem</button>
+    </form>
+    <div id="image-container" style="display: none;">
+        <h2>Imagem Gerada:</h2>
+        <img id="generated-image" src="" alt="Imagem Gerada">
+    </div>
+
+    <script>
+        const form = document.getElementById('image-form');
+        const promptInput = document.getElementById('prompt');
+        const imageContainer = document.getElementById('image-container');
+        const generatedImage = document.getElementById('generated-image');
+        const backendUrl = 'http://127.0.0.1:5000/generate_image'; // Ajuste se necessário
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const prompt = promptInput.value;
+            if (!prompt) {
+                alert('Por favor, digite um prompt.');
+                return;
+            }
+
+            try {
+                const response = await fetch(backendUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Erro ao gerar a imagem.');
+                }
+
+                const data = await response.json();
+                generatedImage.src = `data:image/png;base64,${data.image}`;
+                imageContainer.style.display = 'block';
+
+            } catch (error) {
+                alert(`Erro: ${error.message}`);
+            }
+        });
+    </script>
+</body>
+</html>
